@@ -67,14 +67,10 @@
                     
                 </div>
 
-                <!--Estado-->
-                <div class="col-md-6 mb-2">
-                    <label for="estado" class="form-label">Estado</label>
-                    <input type="text" name="estado" id="estado" class="form-control">
-                </div>
+                
 
                 <!--Saldo-->
-                <div class="col-md-4 mb-2">
+                <div class="col-md-6 mb-2">
                     <label for="saldo" class="form-label">Saldo</label>
                     <input type="text" name="saldo" id="saldo" class="form-control">
                 </div>
@@ -104,7 +100,7 @@
                 </div>
 
                 <!--interes-->
-                <div class="col-md-6 mb-2">
+                <div class="col-md-4 mb-2">
                     <label for="intereces" class="form-label">Interes</label>
                     <input type="text" name="intereces" id="intereces" class="form-control">
                     

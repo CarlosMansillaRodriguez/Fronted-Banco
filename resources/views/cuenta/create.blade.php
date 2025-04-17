@@ -53,20 +53,21 @@
         <form action="{{ route('cuentas.store') }}" method="post">
             @csrf
             <div class="row g-3">
-                <!--Nombre-->
+                <!--titular-->
                 <div class="col-md-6 mb-2">
-                    <label for="nombre" class="form-label">Nombre completo</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control">
+                    <label for="titular" class="form-label">Titular:</label>
+                    <select data-size="4" title="Seleccione el cliente" data-live-search="true" name="titular"
+                        id="titular" class="form-control selectpicker show-tick">  
+                        <option value="1">pepe 1</option>
+                        <option value="2">pepe 2</option>
+                        <option value="3">pepe 3</option>
+                    </select>
+                    
                 </div>
 
-                <!--Estado-->
-                <div class="col-md-6 mb-2">
-                    <label for="estado" class="form-label">Estado</label>
-                    <input type="text" name="estado" id="estado" class="form-control">
-                </div>
 
                 <!--Saldo-->
-                <div class="col-md-4 mb-2">
+                <div class="col-md-6 mb-2">
                     <label for="saldo" class="form-label">Saldo</label>
                     <input type="text" name="saldo" id="saldo" class="form-control">
                 </div>
@@ -96,7 +97,7 @@
                 </div>
 
                 <!--interes-->
-                <div class="col-md-6 mb-2">
+                <div class="col-md-4 mb-2">
                     <label for="intereces" class="form-label">Interes</label>
                     <input type="text" name="intereces" id="intereces" class="form-control">
                     

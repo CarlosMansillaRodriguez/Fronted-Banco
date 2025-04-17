@@ -52,22 +52,40 @@
                 <table id="datatablesSimple" class="table table-striped fs-6">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Tipo de cuenta</th>
-                            <th>Saldo</th>
+                            <th>Titular</th>
                             <th>Estado</th>
                             <th>Acciones</th>
+                            <th>ver detalles</th>
                         </tr>
                     </thead>
                     <tbody>
                         
                         <tr>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+
+                            <td>
+                                <span class="badge rounded-pill text-bg-success d-inline">Activo</span>
+
+                                {{-- <span class="badge rounded-pill text-bg-success d-inline">Eliminado</span> --}}
+                            </td>
+                            
                             <td class="d-flex justify-content-center">
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+                                    {{-- <form action="{{route('clientes.edit')}}" method="get"> --}}
+                                        <button type="submit" class="btn btn-warning">Editar</button>
+                                   {{--  </form> --}}
+                                        <button type="button" class="btn btn-danger">Eliminar</button>
+    
+                                    <button type="button" class="btn btn-success" >Restaurar</button>
+                                    
+                                </div>
+                                <td>
                                 
+                                    {{-- <form action="{{route('cuentas.show')}}"> --}}
+                                        <button type="submit" class="btn btn-primary">Ver detalles</button>
+                                    {{-- </form> --}}
+                                </td>
                             </td>
                         </tr>
                     
