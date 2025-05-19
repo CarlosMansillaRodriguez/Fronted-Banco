@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title','roles')
+@section('title', 'Roles')
 
 @push('css')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -25,7 +25,6 @@
             pointer-events: none;
         }
     </style>
-
 @endpush
 
 @section('content')
@@ -42,11 +41,11 @@
                     toast.onmouseenter = Swal.stopTimer;
                     toast.onmouseleave = Swal.resumeTimer;
                 }
-                });
-        Toast.fire({
-        icon: "success",
-        title: messagge
-        });
+            });
+            Toast.fire({
+                icon: "success",
+                title: messagge
+            });
         </script>
     @endif
 
@@ -57,9 +56,9 @@
             <li class="breadcrumb-item active">Roles</li>
         </ol>
         <div class="mb-4">
-        <a href="{{ route('roles.create') }}">
-            <button type="button" class="btn btn-primary">Añadir nuevo rol</button>
-        </a>          
+            <a href="{{ route('roles.create') }}">
+                <button type="button" class="btn btn-primary">Añadir nuevo rol</button>
+            </a>          
         </div>
         <div class="card mb-4">
             <div class="card-header">
@@ -71,58 +70,57 @@
                     <thead>
                         <tr>
                             <th>Rol</th>
+                            <th>Permisos</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>    
                     <tbody>
-                        {{-- @foreach ($roles as $item) --}}
+                        @foreach ($roles as $item)
                         <tr>
                             <td>
-                                
+                                {{ $item['nombre'] }}
                             </td>
                             <td>
+                                @foreach ($item['permisos'] as $permiso)
+                                    <span class="badge bg-info">{{ $permiso['nombre'] }}</span>
+                                @endforeach
+                            <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-    
-                                    {{-- <form action="{{route('roles.edit',['role'=>$item])}}" method="get"> --}}
+                                    <form action="{{ route('roles.edit', ['role' => $item['id']]) }}" method="get">
                                         <button type="submit" class="btn btn-warning">Editar</button>
-                                    {{-- </form> --}}
-                                    
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">Eliminar</button>
-
+                                    </form>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item['id'] }}">Eliminar</button>
                                 </div>
                             </td>
                         </tr>
                         <!-- Modal de confirmacion -->
-                        {{-- <div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="confirmModal-{{ $item['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿Seguro que quieres eliminar el rol?
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                
-                                <form action="{{ route('roles.destroy', ['role' => $item->id]) }}" method="post">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger">Confirmar</button>
-                                </form>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Seguro que quieres eliminar el rol?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <form action="{{ route('roles.destroy', ['role' => $item['id']]) }}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Confirmar</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
-                        </div> --}}
-                        {{-- @endforeach --}}
+                        </div>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-    
     </div>
-
 @endsection
 
 @push('js')

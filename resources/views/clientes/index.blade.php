@@ -27,6 +27,27 @@
 @endpush
 
 @section('content')
+
+@if (session('success'))
+<script>
+    let messagge = "{{ session('success') }}";
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+        });
+Toast.fire({
+icon: "success",
+title: messagge
+});
+</script>
+@endif
 <div class="container-fluid px-4">
     <h1 class="mt-4 text-center">Clientes</h1>
     <ol class="breadcrumb mb-4">
@@ -34,12 +55,10 @@
         <li class="breadcrumb-item active">Clientes</li>
     </ol>
     <div class="mb-4">
-    <a href="{{ route('clientes.create') }}">
-        <button type="button" class="btn btn-primary">Añadir nuevo cliente</button>
-    </a>          
+        <a href="{{ route('clientes.create') }}">
+            <button type="button" class="btn btn-primary">Añadir nuevo cliente</button>
+        </a>          
     </div>
-
-
 
     <div class="card mb-4">
         <div class="card-header">
@@ -50,60 +69,103 @@
             <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Ci</th>
-                        <th>Telefono</th>
-                        <th>Email</th>
-                        <th>Direccion</th>
-                        <th>Fecha</th>
-                        <th>Estados</th>
+                        <th>Nombre completo</th>
+                        <th>Contacto</th>
+                        <th>Datos personales</th>
+                        <th>Credenciales</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>    
                 <tbody>
-                    {{-- @foreach ($clientes as $item) --}}
+                    @foreach ($clientes as $item)
                     <tr>
+                        <td>{{ $item['usuario']['nombre'] }} {{ $item['usuario']['apellido'] }}</td>
                         <td>
-                            Joaquin Chumacero
+                            <p class="fw-normal mb-1">Teléfono:</p>
+                            <p class="text-muted mb-0">{{ $item['telefono'] }}</p>
+                            <p class="fw-normal mb-1">Dirección:</p>
+                            <p class="text-muted mb-0">{{ $item['direccion'] }}</p>
                         </td>
                         <td>
-                            41231455
+                            <p class="fw-normal mb-1">Género:</p>
+                            <p class="text-muted mb-0">{{ $item['usuario']['genero'] }}</p>
+                            <p class="fw-normal mb-1">CI:</p>
+                            <p class="text-muted mb-0">{{ $item['ci'] }}</p>
+                            <p class="fw-normal mb-1">Fecha de nacimiento:</p>
+                            <p class="text-muted mb-0">{{ $item['usuario']['fecha_nacimiento'] }}</p>
                         </td>
                         <td>
-                            67980404
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#verModal-{{ $item['id'] }}">Detalles</button>
                         </td>
                         <td>
-                            av.moscu #500
-                        </td>
-                        <td>
-                            av. Bush
-                        </td>
-                        <td>
-                            16/04/2025
-                        </td>
-                        <td>
-
+                            @if ($item['estado'] == 1)    
                                 <span class="badge rounded-pill text-bg-success d-inline">Activo</span>
-
-                                {{-- <span class="badge rounded-pill text-bg-success d-inline">Eliminado</span> --}}
-
+                            @else
+                                <span class="badge rounded-pill text-bg-danger d-inline">Eliminado</span>
+                            @endif
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-
-                                {{-- <form action="{{route('clientes.edit')}}" method="get"> --}}
+                                <form action="{{ route('clientes.edit', ['cliente' => $item['id']]) }}" method="get">
                                     <button type="submit" class="btn btn-warning">Editar</button>
-                               {{--  </form> --}}
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
-
-                                <button type="button" class="btn btn-success" >Restaurar</button>
-
-                                
+                                </form> 
+                                @if ($item['estado'] == 1)
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item['id'] }}">Eliminar</button>
+                                @else
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{ $item['id'] }}">Restaurar</button>
+                                @endif
                             </div>
                         </td>
                     </tr>
+                    <!-- Modal de confirmación -->
+                    <div class="modal fade" id="confirmModal-{{ $item['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ $item['estado'] == 1 ? '¿Seguro que quieres eliminar el cliente?' : '¿Seguro que quieres restaurar el cliente?' }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <form action="{{ route('clientes.destroy', ['cliente' => $item['id']]) }}" method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Confirmar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                    {{-- @endforeach --}}
+                    <!-- Modal para detalles de usuario -->
+                    <div class="modal fade" id="verModal-{{ $item['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detalles del Usuario</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Nombre de Usuario:</label>
+                                        <input type="text" class="form-control" value="{{ $item['usuario']['nombre_user'] }}" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Email:</label>
+                                        <input type="email" class="form-control" value="{{ $item['usuario']['email'] }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -51,27 +51,63 @@
                     </nav>
                 </div> --}}
                 <div class="sb-sidenav-menu-heading">Modulos</div>
-                <a class="nav-link" href="{{ route('clientes.index') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Clientes
+                
+                
+                <!-- Administración del sistema -->
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmin" aria-expanded="false" aria-controls="collapseAdmin">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Administración del sistema
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <a class="nav-link" href="{{ route('roles.index') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Roles
+                <div class="collapse" id="collapseAdmin" aria-labelledby="headingAdmin" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{ route('users.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                            Usuarios
+                        </a>
+                        <a class="nav-link" href="{{ route('empleados.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
+                            Empleados
+                        </a>
+                        <a class="nav-link" href="{{ route('roles.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Roles
+                        </a>
+                        <a class="nav-link" href="{{ route('permisos.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Permisos
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Clientes y cuentas -->
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseClientes" aria-expanded="false" aria-controls="collapseClientes">
+                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    Clientes y cuentas
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <a class="nav-link" href="{{ route('users.index') }}">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
-                    Usuarios
-                </a>
-                <a class="nav-link" href="{{ route('cuentas.index') }}">
-                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Cuentas
-                </a>
+                <div class="collapse" id="collapseClientes" aria-labelledby="headingClientes" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{ route('clientes.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Clientes
+                        </a>
+                        <a class="nav-link" href="{{ route('cuentas.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Cuentas
+                        </a>
+                        <a class="nav-link" href="{{ route('tarjetas.index') }}">
+                            <div class="sb-nav-link-icon"><i class="fa fa-credit-card"></i></div>
+                            Tarjetas
+                        </a>
+                    </nav>
+                </div>
+
             </div>
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Bienvenido:</div>
-            Start Bootstrap
+                {{-- {{auth()->user()->name}} --}}
         </div>
     </nav>
 </div>

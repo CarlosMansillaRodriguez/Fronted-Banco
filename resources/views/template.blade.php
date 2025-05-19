@@ -14,7 +14,7 @@
     
         @stack('css')
     </head>
-    {{-- @auth --}}
+    @if(session('auth_token'))
 
         <body class="sb-nav-fixed">
             
@@ -39,9 +39,7 @@
             
             @stack('js')
         </body>
-    {{-- @endauth --}}
-
-{{--     @guest
+    @else
         @include('pages.401')
-    @endguest --}}
+    @endif
 </html>
